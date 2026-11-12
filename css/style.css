@@ -1,0 +1,182 @@
+:root {
+  --bg: #e9ebef;
+  --card: #fafafa;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --field: #eeeeee;
+  --accent: #ef4136;
+  --accent-dark: #d6342a;
+  --grad: linear-gradient(135deg, #ee3d4f 0%, #f4623a 45%, #f5a623 100%);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+
+.card {
+  display: flex;
+  width: min(900px, 100%);
+  min-height: 520px;
+  background: var(--card);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(20, 24, 40, .14);
+  perspective: 1200px;
+  transition: transform .15s ease-out;
+}
+
+/* Sisi form */
+.form-side {
+  flex: 1 1 50%;
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.form-side h1 { margin: 0 0 6px; font-size: 2rem; font-weight: 700; text-align: center; }
+.hint { margin: 0 0 28px; text-align: center; color: var(--muted); font-size: .85rem; }
+
+label { display: block; margin: 0 0 6px; font-size: .78rem; font-weight: 600; }
+input {
+  width: 100%;
+  padding: 13px 14px;
+  margin-bottom: 18px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: var(--field);
+  font: inherit;
+  font-size: .9rem;
+  color: var(--ink);
+}
+input:focus { outline: none; border-color: var(--accent); background: #fff; }
+
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 72px; }
+.ghost {
+  position: absolute; right: 6px; top: 6px; height: 34px;
+  padding: 0 10px; border: 0; border-radius: 4px;
+  background: transparent; color: var(--muted);
+  font: inherit; font-size: .75rem; font-weight: 600; cursor: pointer;
+}
+.ghost:hover { color: var(--ink); }
+.ghost:focus-visible, .primary:focus-visible { outline: 3px solid rgba(239, 65, 54, .35); outline-offset: 2px; }
+
+.error {
+  margin: -4px 0 14px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #fde8e6;
+  color: #a4281f;
+  font-size: .8rem;
+}
+
+.primary {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+}
+.primary:hover { background: var(--accent-dark); }
+.primary:disabled { opacity: .6; cursor: progress; }
+
+/* Sisi sambutan (statis) */
+.welcome-side {
+  flex: 1 1 50%;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  background: var(--grad);
+  background-size: 300% 300%;
+  transform-origin: left center;
+  animation: panel-in .9s cubic-bezier(.2, .7, .2, 1) both, flow 9s ease-in-out infinite;
+}
+.welcome-side h2 { margin: 18px 0 10px; font-size: 1.7rem; line-height: 1.25; font-weight: 700; }
+.welcome-side p { margin: 0; max-width: 28ch; font-size: .85rem; line-height: 1.6; opacity: .92; }
+
+@keyframes panel-in {
+  from { transform: rotateY(-90deg); }
+  to   { transform: rotateY(0); }
+}
+
+@media (max-width: 720px) {
+  body { padding: 14px; }
+  .card { flex-direction: column-reverse; min-height: 0; }
+  .form-side, .welcome-side { padding: 32px 24px; }
+  .welcome-side { transform-origin: center top; animation: flow 9s ease-in-out infinite; }
+  .welcome-side h2 { font-size: 1.3rem; }
+  .icon { width: 40px; height: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-side { animation: none; }
+}
+
+
+/* ---------- Efek interaktif ---------- */
+.stage { width: min(900px, 100%); perspective: 1100px; }
+.stage .card { width: 100%; }
+
+@keyframes flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Ikon alat lab melayang di panel */
+.fl { position: absolute; color: #fff; opacity: .38; pointer-events: none; animation: bob 5s ease-in-out infinite; }
+.fl.a { left: 7%;  top: 9%; }
+.fl.b { right: 9%; top: 14%; animation-delay: -1.7s; }
+.fl.c { right: 8%; bottom: 9%; animation-delay: -3.2s; }
+.fl.d { left: 9%;  bottom: 11%; animation-delay: -4.1s; }
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%      { transform: translateY(-12px) rotate(5deg); }
+}
+.welcome-side h2, .welcome-side p { position: relative; z-index: 1; }
+
+/* Maskot */
+.mascot { display: block; margin: 0 auto 6px; overflow: visible; }
+.pup { transition: transform .08s linear; }
+.lid { transform: scaleY(0); transform-origin: top; transform-box: fill-box; transition: transform .2s ease; }
+.mascot.shy .lid { transform: scaleY(1); }
+.mascot.is-fail { animation: shake .45s; }
+.mascot.is-ok   { animation: hop .7s; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px) rotate(-3deg); }
+  40%, 80% { transform: translateX(6px) rotate(3deg); }
+}
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  30%      { transform: translateY(-14px); }
+  60%      { transform: translateY(0); }
+  80%      { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-side, .fl, .mascot.is-fail, .mascot.is-ok { animation: none; }
+  .card, .pup, .lid { transition: none; }
+}
+
+/* ---------- Latar partikel ---------- */
+#bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.stage { position: relative; z-index: 1; }
